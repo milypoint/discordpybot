@@ -1,7 +1,7 @@
 import asyncio
 import os
 
-from config import config
+from config.config_handler import Config
 
 
 def get_py_files(root):
@@ -25,7 +25,7 @@ async def auto_reboot(client):
         return max(mtimes)
 
     await client.wait_until_ready()
-    files = get_py_files(config.WORK_PATH)
+    files = get_py_files(Config().WORK_PATH)
     last_time = mtime_files(files)
 
     while (True):
