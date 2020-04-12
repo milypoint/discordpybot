@@ -12,8 +12,15 @@ class Command(abc.ABC):
         pass
 
     def __init__(self, client, message):
+        super().__setattr__('_attributes', dict())
         self.client = client
         self.message = message
+
+    def __setattr__(self, key, value):
+        super().__getattribute__('_attributes')[key] = value
+
+    def __getattr__(self, key):
+        return super().__getattribute__('_attributes')[key]
 
     @staticmethod
     def permissions_required():

@@ -17,10 +17,18 @@ logger.addHandler(handler)
 # ---
 
 
+def test():
+    pass
+
+
 if __name__ == '__main__':
     client = client.Client()
     config = Config()
     if config.DEBUG:
         client.loop.create_task(autoreboot.auto_reboot(client))
+
+    # run dev test:
+    test()
+
     # Main loop:
     client.run(config.token)

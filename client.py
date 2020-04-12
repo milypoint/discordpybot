@@ -27,5 +27,8 @@ class Client(discord.Client):
         os.execl(python, python, *sys.argv)
 
     async def on_voice_state_update(self, member, before, after):
-        if hasattr(Config(), 'on_voice_state_update_channels') and len(Config().on_voice_state_update_channels):
-            pass
+        try:
+            if hasattr(Config(), 'on_voice_state_update_channels') and len(Config().on_voice_state_update_channels):
+                pass
+        except Exception as e:
+            print(e)
