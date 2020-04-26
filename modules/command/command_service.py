@@ -2,9 +2,8 @@ import os
 import sys
 import importlib
 import asyncio
-import re
 
-from config.config_handler import Config
+from modules.config.config_handler import Config
 from permissions.permission_validator import PermissionValidator
 
 # Importing all modules from .commands folder

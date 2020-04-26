@@ -1,5 +1,6 @@
 
-def list_dump(_l):
+def list_dump(_l, _filter=None):
     for item in _l:
-        print(item)
+        if (_filter is None) or _filter(item):
+            print(item)
     print()

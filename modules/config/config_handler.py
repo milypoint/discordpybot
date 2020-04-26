@@ -3,7 +3,7 @@ import os
 import pickle
 import asyncio
 
-from config import config
+import config
 from tools.singleton import singleton
 
 
@@ -12,7 +12,7 @@ class Config(object):
 
     def __init__(self):
         super().__setattr__('_config', dict())
-        for k, v in config.config.items():
+        for k, v in config.items():
             self.__setattr__(k, v)
 
     def __setattr__(self, key, value):
