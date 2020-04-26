@@ -6,4 +6,4 @@ __pycache__/
 tmp/
 
 config/config.py
-config/pickle/*.pcl
+*.pcl
