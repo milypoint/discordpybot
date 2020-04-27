@@ -4,7 +4,7 @@ import importlib
 import asyncio
 
 from modules.config.config_handler import Config
-from permissions.permission_validator import PermissionValidator
+from modules.permission.permission_validator import PermissionValidator
 
 # Importing all modules from .commands folder
 for module in os.listdir(os.path.join(Config().WORK_PATH, 'commands')):
@@ -29,14 +29,14 @@ class CommandService(object):
                               )
                 # here we have class object in cls variable
                 command_obj = cls(client, message)
-                # Check if command author has permissions:
+                # Check if command author has permission:
                 for permission in command_obj.permissions_required():
                     if not PermissionValidator().validate(client, message, permission):
                         asyncio.ensure_future(
                             message.channel.send(f'{message.author.mention}, you dont have `{permission}` permission')
                         )
                         return
-                # Call command method after validate permissions:
+                # Call command method after validate permission:
                 command_obj.action()
                 return
         # If loop out means no command handler found

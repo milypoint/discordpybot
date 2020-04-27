@@ -14,7 +14,7 @@ class PermissionValidator(object):
             print(f'Unknown permission: {permission}')
             return False
 
-        # Check if author has required permissions
+        # Check if author has required permission
         if permission not in [role.name for role in message.author.roles]:
             print(f'User {message.author} dont have required permission: {permission}')
             return False

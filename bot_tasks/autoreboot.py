@@ -1,7 +1,7 @@
 import asyncio
 import os
 
-from config.config_handler import Config
+from modules.config.config_handler import Config
 
 
 def get_py_files(root):

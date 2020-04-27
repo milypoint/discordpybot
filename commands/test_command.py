@@ -1,6 +1,6 @@
 import asyncio
 
-from .command import Command
+from modules.command.command import Command
 
 
 class TestCommand(Command):

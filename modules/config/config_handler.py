@@ -3,23 +3,27 @@ import os
 import pickle
 import asyncio
 
-import config
-from tools.singleton import singleton
+import config.config
+import tools.singleton
 
 
-@singleton
+@tools.singleton.singleton
 class Config(object):
 
     def __init__(self):
         super().__setattr__('_config', dict())
-        for k, v in config.items():
-            self.__setattr__(k, v)
+        for item in dir(config.config):
+            if item.isupper():
+                self.__setattr__(item, object.__getattribute__(config.config, item))
 
     def __setattr__(self, key, value):
         super().__getattribute__('_config')[key] = value
 
     def __getattr__(self, key):
         return super().__getattribute__('_config')[key]
+
+    def get_config(self):
+        return super().__getattribute__('_config')
 
     @staticmethod
     def __load_pickle(file):
@@ -29,6 +33,5 @@ class Config(object):
                 _dict = pickle.load(f)
         return _dict
 
-    def __update_config_channel(self):
-        asyncio.ensure_future(self.client.wait_until_ready())
-
+    def __update_config_channel(self, client):
+        asyncio.ensure_future(client.wait_until_ready())

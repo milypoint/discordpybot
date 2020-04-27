@@ -1,6 +1,8 @@
 import pickle
 import os
 
+import config.config as config
+
 
 class PickleHandler(object):
     """
@@ -16,10 +18,9 @@ class PickleHandler(object):
         super().__setattr__('_attributes', dict())
         self.name = name
         self.file = os.path.join(
-            os.path.dirname(os.path.abspath(__file__)),
+            config.CONFIG_PATH,
             f'{name}.pcl'
         )
-        print(self.__load())
         for key, value in self.__load().items():
             self.__setattr__(key, value)
 

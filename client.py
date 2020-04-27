@@ -2,9 +2,11 @@ import discord
 import os
 import sys
 
-from tools import singleton
-from config.config_handler import Config
-from commands.command_service import CommandService
+import tools.singleton as singleton
+import config.config as config
+import modules.command.command_service
+import modules.channel_spawner.spawn_channel
+
 
 
 @singleton.singleton
@@ -19,7 +21,7 @@ class Client(discord.Client):
             print(f'message.content "{message.content}" message.author.id "{message.author.id}"')
 
         if message.content.strip().startswith('!'):
-            CommandService().command(self, message)
+            modules.command.command_service.CommandService().command(self, message)
 
     async def on_disconnect(self):
         # Restart bot.py:
@@ -27,8 +29,5 @@ class Client(discord.Client):
         os.execl(python, python, *sys.argv)
 
     async def on_voice_state_update(self, member, before, after):
-        try:
-            if hasattr(Config(), 'on_voice_state_update_channels') and len(Config().on_voice_state_update_channels):
-                pass
-        except Exception as e:
-            print(e)
+        modules.channel_spawner.spawn_channel.DynamicChannel().on_state(member, before, after)
+        # print(after)
