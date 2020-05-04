@@ -1,5 +1,8 @@
 import logging
 import os
+import sys
+import asyncio
+
 import bot_tasks.autoreboot as autoreboot
 import config.config as config
 from objects import client
@@ -18,11 +21,20 @@ def test():
 
 
 if __name__ == '__main__':
+    print(f'pid: {os.getpid()}')
     client = client.Client()
+    tasks = []
     if config.DEBUG:
-        client.loop.create_task(autoreboot.auto_reboot(client))
-
+        tasks.append(
+            client.loop.create_task(autoreboot.auto_reboot(client))
+        )
     test()
-
-    # Main loop:
-    client.run(config.TOKEN)
+    try:
+        client.loop.run_until_complete(client.start(config.TOKEN))
+    except KeyboardInterrupt as e:
+        print(e)
+    finally:
+        for task in tasks:
+            task.cancel()
+        client.loop.run_until_complete(client.logout())
+        client.loop.close()

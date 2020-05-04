@@ -30,5 +30,5 @@ async def auto_reboot(client):
 
     while (True):
         if mtime_files(files) > last_time:
-            await client.logout()
+            raise KeyboardInterrupt('auto_reboot stops running process')
         await asyncio.sleep(1)
