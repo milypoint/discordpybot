@@ -1,26 +1,20 @@
 import os
 import pickle
 
-import config.config as config
-
 
 class PickleHandler(object):
     """
     Simple handler to use Pickle module.
 
-    After __init__ load data from pcl file.
+    __init__ does load data from pcl file.
     Whenever adds new attribute calls dump method.
     """
 
-    _properties = ['name', 'file']
+    _properties = ['file']
 
-    def __init__(self, name):
+    def __init__(self, file):
         super().__setattr__('_attributes', dict())
-        self.name = name
-        self.file = os.path.join(
-            config.CONFIG_PATH,
-            f'{name}.pcl'
-        )
+        self.file = file
         for key, value in self.__load().items():
             self.__setattr__(key, value)
 

@@ -1,6 +1,8 @@
-import discord
 import sys
 
+import discord
+
+import config.config as config
 import helpers.singleton as singleton
 import objects.command.command_service
 import objects.dynamic_channel_handler
@@ -25,10 +27,9 @@ class Client(discord.Client):
         if message.content.strip().startswith('!'):
             objects.command.command_service.CommandService().command(self, message)
 
-    async def on_disconnect(self):
-        # Restart main.py:
-        python = sys.executable
-        # os.execl(python, python, *sys.argv)
+    @staticmethod
+    async def on_disconnect():
+        print('Disconnected.')
 
     async def on_voice_state_update(self, member, before, after):
         """

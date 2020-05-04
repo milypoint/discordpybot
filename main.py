@@ -1,11 +1,10 @@
 import logging
 import os
 import sys
-import asyncio
 
 import bot_tasks.autoreboot as autoreboot
 import config.config as config
-from objects import client
+import objects.client as client
 
 # Setting logger:
 logger = logging.getLogger('discord')

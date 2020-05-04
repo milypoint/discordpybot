@@ -44,7 +44,7 @@ class DynamicChannelHandler(object):
     @staticmethod
     async def create(name: str, category: discord.CategoryChannel):
         try:
-            guild = do.guild()
+            guild = do.get_guild()
             return await guild.create_voice_channel(name, category=category)
         except Exception as e:
             print(e)

@@ -1,15 +1,10 @@
-import sys
-import time
-
 import objects.client as client
 
 
-def guild():
+def get_guild():
     if not hasattr(client, 'Client'):
         return
-
     cl = client.Client()
-
     try:
         return cl.guilds[0]
     except IndexError as e:
@@ -18,7 +13,7 @@ def guild():
 
 
 def channel_by_id(_id, ch_type=None):
-    server = guild()
+    server = get_guild()
     if server is None:
         return
     try:
