@@ -1,13 +1,13 @@
+import asyncio
+import importlib
 import os
 import sys
-import importlib
-import asyncio
 
-from modules.config.config_handler import Config
-from modules.permission.permission_validator import PermissionValidator
+import config.config as config
+import objects.permission.permission_validator as permission_validator
 
-# Importing all modules from .commands folder
-for module in os.listdir(os.path.join(Config().WORK_PATH, 'commands')):
+# Importing all objects from .commands folder
+for module in os.listdir(os.path.join(config.WORK_PATH, 'commands')):
     if module.endswith('.py'):
         importlib.import_module(f'commands.{module[:-3]}')
 
@@ -16,6 +16,10 @@ class CommandService(object):
 
     @staticmethod
     def command(client, message):
+        """
+        :param client: Client
+        :param message: discord.Message
+        """
         _command = message.content[1:].split()[0]
 
         # Getting command class object:
@@ -31,7 +35,7 @@ class CommandService(object):
                 command_obj = cls(client, message)
                 # Check if command author has permission:
                 for permission in command_obj.permissions_required():
-                    if not PermissionValidator().validate(client, message, permission):
+                    if not permission_validator.PermissionValidator().validate(client, message, permission):
                         asyncio.ensure_future(
                             message.channel.send(f'{message.author.mention}, you dont have `{permission}` permission')
                         )

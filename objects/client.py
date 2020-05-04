@@ -1,33 +1,40 @@
 import discord
-import os
 import sys
 
-import tools.singleton as singleton
-import config.config as config
-import modules.command.command_service
-import modules.channel_spawner.spawn_channel
-
+import helpers.singleton as singleton
+import objects.command.command_service
+import objects.dynamic_channel_handler
 
 
 @singleton.singleton
 class Client(discord.Client):
+
     async def on_ready(self):
         print('Logged in as', self.user.name, "(id " + str(self.user.id) + ")", end='\n\n')
 
     async def on_message(self, message):
+        """
+        :param message: discord.Message
+        """
         await self.wait_until_ready()
+
         if message.author.id != self.user.id:
             print('call on_message event:')
             print(f'message.content "{message.content}" message.author.id "{message.author.id}"')
 
         if message.content.strip().startswith('!'):
-            modules.command.command_service.CommandService().command(self, message)
+            objects.command.command_service.CommandService().command(self, message)
 
     async def on_disconnect(self):
-        # Restart bot.py:
+        # Restart main.py:
         python = sys.executable
-        os.execl(python, python, *sys.argv)
+        # os.execl(python, python, *sys.argv)
 
     async def on_voice_state_update(self, member, before, after):
-        modules.channel_spawner.spawn_channel.DynamicChannel().on_state(member, before, after)
-        # print(after)
+        """
+        :param member: discord.Member
+        :param before: discord.VoiceState
+        :param after: discord.VoiceState
+        """
+        await self.wait_until_ready()
+        await objects.dynamic_channel_handler.DynamicChannelHandler().action(member, before, after)

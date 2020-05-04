@@ -1,9 +1,8 @@
 import logging
 import os
-# from modules.config.config_handler import Config
 import bot_tasks.autoreboot as autoreboot
 import config.config as config
-import client
+from objects import client
 
 # Setting logger:
 logger = logging.getLogger('discord')
@@ -15,9 +14,7 @@ logger.addHandler(handler)
 
 
 def test():
-    # modules.channel_spawner.spawn_channel.DynamicChannel()
     pass
-
 
 
 if __name__ == '__main__':
@@ -25,7 +22,6 @@ if __name__ == '__main__':
     if config.DEBUG:
         client.loop.create_task(autoreboot.auto_reboot(client))
 
-    # run dev test:
     test()
 
     # Main loop:

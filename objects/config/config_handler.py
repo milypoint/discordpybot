@@ -4,10 +4,10 @@ import pickle
 import asyncio
 
 import config.config
-import tools.singleton
+import helpers.singleton
 
 
-@tools.singleton.singleton
+@helpers.singleton.singleton
 class Config(object):
 
     def __init__(self):

@@ -1,9 +1,9 @@
 
-
 class PermissionValidator(object):
 
     @staticmethod
     def validate(client, message, permission):
+
         if hasattr(message, 'guild'):
             guild_roles = [role.name for role in message.guild.roles]
         else:
@@ -16,7 +16,6 @@ class PermissionValidator(object):
 
         # Check if author has required permission
         if permission not in [role.name for role in message.author.roles]:
-            print(f'User {message.author} dont have required permission: {permission}')
+            print(f'User {message.author} don`t have required permission: {permission}')
             return False
-
         return True

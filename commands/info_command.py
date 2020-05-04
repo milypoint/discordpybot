@@ -1,6 +1,6 @@
 import asyncio
 
-from modules.command.command import Command
+from objects.command.command import Command
 
 
 class InfoCommand(Command):
